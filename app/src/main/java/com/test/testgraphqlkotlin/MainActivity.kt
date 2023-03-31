@@ -26,7 +26,15 @@ class MainActivity : AppCompatActivity() {
                 //需要先创建LaunchList.graphql和schema.graphqls后，生成一下后，
                 //通过LaunchList.graphql，LaunchListQuery.kt文件能够自动生成，LaunchListQuery()才能够运用
                 val response = apolloClient.query(LaunchListQuery()).execute()
-                Log.e("LaunchList", "Success ${response.data}")
+                Log.e("全部数据", "Success ${response.data}")
+
+                //获取各数据
+                val launches = response?.data?.launches?.launches?.filterNotNull()
+                launches?.forEach {
+                    Log.e("获取各数据", "launches $it")
+                    Log.e("it.id", it.id)
+                    it.site?.let { it1 -> Log.e("it.site", it1) }
+                }
             }
         }
 
