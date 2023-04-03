@@ -31,9 +31,11 @@ class MainActivity : AppCompatActivity() {
                 //获取各数据
                 val launches = response?.data?.launches?.launches?.filterNotNull()
                 launches?.forEach {
-                    Log.e("获取各数据", "launches $it")
-                    Log.e("it.id", it.id)
-                    it.site?.let { it1 -> Log.e("it.site", it1) }
+                    Log.i("获取各数据", "launches $it")
+                    Log.i("it.id", it.id)
+                    it.site?.let { it1 -> Log.i("it.site", it1) }
+                    it.mission?.name?.let { it2 -> Log.i("it.mission.name", it2) }
+                    it.mission?.missionPatch?.let { it2 -> Log.i("it.mission.missionPatch", it2) }
                 }
             }
         }
