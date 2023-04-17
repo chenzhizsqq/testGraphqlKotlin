@@ -3,13 +3,20 @@ package com.test.testgraphqlkotlin
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.apollographql.apollo3.ApolloClient
 import com.test.testgraphqlkotlin.databinding.ActivityMainBinding
 import androidx.lifecycle.lifecycleScope
+import com.apollographql.apollo3.api.ApolloResponse
+import com.apollographql.apollo3.api.Optional
 import com.test.LaunchListQuery
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+
+    private val cursor = MutableLiveData<String>()
+    private val response = LaunchListQuery.Data
+
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +34,9 @@ class MainActivity : AppCompatActivity() {
                 //通过LaunchList.graphql，LaunchListQuery.kt文件能够自动生成，LaunchListQuery()才能够运用
                 val response = apolloClient.query(LaunchListQuery()).execute()
                 Log.e("全部数据", "Success ${response.data}")
+
+
+                response = apolloClient.query(LaunchListQuery(Optional.present(cursor))).execute()
 
                 //获取各数据
                 val launches = response?.data?.launches?.launches?.filterNotNull()
